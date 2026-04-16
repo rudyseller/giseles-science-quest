@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { positiveIons, negativeIons, compoundPractice } from '../../data/ions'
 import IonAnimation from './IonAnimation'
+import FormulaAnimation from './FormulaAnimation'
 
 type Tab = 'learn' | 'ions' | 'formula'
 
@@ -256,12 +257,13 @@ export default function LearnIons() {
         {tab === 'formula' && (
           <div>
             {/* Reasoning reminder */}
-            <div className="bg-amber-50 rounded-xl p-3 mb-3">
-              <p className="text-xs text-amber-700">
-                <strong>Steps:</strong> 1) Find the ions and their charges → 2) Cross-multiply the charges
-                to find the ratio → 3) Write as subscripts. Charges must balance to <strong>zero</strong>.
-              </p>
+            {/* Animated worked example */}
+            <div className="mb-4">
+              <FormulaAnimation />
             </div>
+
+            {/* Now try it yourself */}
+            <h4 className="font-bold text-sm text-gray-700 mb-2 text-center">Now try it yourself:</h4>
 
             <div className="bg-amber-50 rounded-xl p-4 mb-4 text-center">
               <p className="text-xs text-gray-500 mb-1">Write the formula for:</p>
