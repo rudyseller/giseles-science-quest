@@ -71,9 +71,9 @@ export default function LearnIons() {
         ))}
       </div>
 
-      <AnimatePresence mode="wait">
+      <div>
         {tab === 'learn' && (
-          <motion.div key="learn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* Step 1: WHY atoms form ions */}
             <div className="bg-amber-50 rounded-xl p-4 mb-3">
               <h3 className="font-bold text-amber-800 text-sm mb-2">Why do atoms form ions?</h3>
@@ -113,9 +113,7 @@ export default function LearnIons() {
                   <div className="text-[10px] text-gray-400">11p⁺ 11e⁻</div>
                 </div>
                 <div className="text-center">
-                  <motion.div animate={{ x: [0, 10, 10] }} transition={{ repeat: Infinity, duration: 2 }}>
-                    <span className="text-xs">→ loses 1e⁻ →</span>
-                  </motion.div>
+                  <span className="text-xs">→ loses 1e⁻ →</span>
                 </div>
                 <div className="text-center">
                   <div className="text-xl text-blue-600 font-bold">Na⁺</div>
@@ -155,9 +153,7 @@ export default function LearnIons() {
                   <div className="text-[10px] text-gray-400">17p⁺ 17e⁻</div>
                 </div>
                 <div className="text-center">
-                  <motion.div animate={{ x: [0, -10, -10] }} transition={{ repeat: Infinity, duration: 2 }}>
-                    <span className="text-xs">← gains 1e⁻ ←</span>
-                  </motion.div>
+                  <span className="text-xs">← gains 1e⁻ ←</span>
                 </div>
                 <div className="text-center">
                   <div className="text-xl text-red-600 font-bold">Cl⁻</div>
@@ -212,11 +208,11 @@ export default function LearnIons() {
                 <li>The ending <strong>"-ate"</strong> = contains oxygen (e.g. sulfate = SO₄²⁻)</li>
               </ol>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {tab === 'ions' && (
-          <motion.div key="ions" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             <p className="text-xs text-gray-500 mb-3 text-center">Tap to flip between name and symbol</p>
 
             <h4 className="font-bold text-sm text-blue-700 mb-2">Positive Ions (+)</h4>
@@ -254,11 +250,11 @@ export default function LearnIons() {
                 </button>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
 
         {tab === 'formula' && (
-          <motion.div key="formula" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* Reasoning reminder */}
             <div className="bg-amber-50 rounded-xl p-3 mb-3">
               <p className="text-xs text-amber-700">
@@ -304,13 +300,11 @@ export default function LearnIons() {
             />
 
             {formulaResult && (
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
+              <div
                 className={`text-center p-3 rounded-xl mb-3 font-bold ${formulaResult === 'correct' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
               >
                 {formulaResult === 'correct' ? 'Correct!' : `Not quite! The answer is ${currentCompound.formula}`}
-              </motion.div>
+              </div>
             )}
 
             <div className="flex gap-2 mb-3">
@@ -327,9 +321,9 @@ export default function LearnIons() {
             {showAnswer && (
               <p className="text-center text-lg font-mono font-bold text-amber-700 mt-2">{currentCompound.formula}</p>
             )}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   )
 }

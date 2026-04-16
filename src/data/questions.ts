@@ -280,13 +280,36 @@ export function getRandomQuestions(topicId: string, difficulty: Difficulty, coun
 }
 
 export function getMixedQuestions(count: number, weakTopics?: string[]): Question[] {
-  const shuffled = [...allQuestions].sort(() => Math.random() - 0.5)
+  // Guarantee at least 1 question from EVERY topic
+  const topicIds = [...new Set(allQuestions.map(q => q.topic))]
+  const picked: Question[] = []
+  const usedIds = new Set<string>()
+
+  // Step 1: pick 1 random question from each topic
+  for (const topic of topicIds) {
+    const pool = allQuestions.filter(q => q.topic === topic)
+    const q = pool[Math.floor(Math.random() * pool.length)]
+    if (q) {
+      picked.push(q)
+      usedIds.add(q.id)
+    }
+  }
+
+  // Step 2: fill remaining slots, weighted toward weak topics
+  const remaining = count - picked.length
+  const unused = allQuestions.filter(q => !usedIds.has(q.id))
+  const shuffled = [...unused].sort(() => Math.random() - 0.5)
+
   if (weakTopics && weakTopics.length > 0) {
-    // Prioritize weak topics
     const weak = shuffled.filter(q => weakTopics.includes(q.topic))
     const other = shuffled.filter(q => !weakTopics.includes(q.topic))
-    const weakCount = Math.min(Math.ceil(count * 0.6), weak.length)
-    return [...weak.slice(0, weakCount), ...other.slice(0, count - weakCount)]
+    const weakCount = Math.min(Math.ceil(remaining * 0.6), weak.length)
+    picked.push(...weak.slice(0, weakCount))
+    picked.push(...other.slice(0, remaining - weakCount))
+  } else {
+    picked.push(...shuffled.slice(0, remaining))
   }
-  return shuffled.slice(0, count)
+
+  // Shuffle the final set so topic order is random
+  return picked.sort(() => Math.random() - 0.5).slice(0, count)
 }

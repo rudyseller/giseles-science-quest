@@ -32,6 +32,7 @@ export default function LearnAcidsBases() {
   const current = classifyItems[classifyIdx % classifyItems.length]
 
   function handleClassify(answer: string) {
+    if (feedback) return // prevent double-tap
     setClassifyTotal(t => t + 1)
     if (answer === current.answer) {
       setClassifyScore(s => s + 1)
@@ -40,9 +41,9 @@ export default function LearnAcidsBases() {
       setFeedback(`Nope! ${current.name} is ${current.answer === 'neutral' ? 'neutral' : `a ${current.answer}`}`)
     }
     setTimeout(() => {
-      setClassifyIdx(i => i + 1)
       setFeedback(null)
-    }, 1200)
+      setClassifyIdx(i => i + 1)
+    }, 2500)
   }
 
   return (
@@ -62,9 +63,9 @@ export default function LearnAcidsBases() {
         ))}
       </div>
 
-      <AnimatePresence mode="wait">
+      <div>
         {tab === 'learn' && (
-          <motion.div key="learn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* What are acids - with WHY */}
             <div className="bg-red-50 rounded-xl p-4 mb-3">
               <h3 className="font-bold text-red-800 text-sm mb-2">What is an Acid?</h3>
@@ -143,11 +144,11 @@ export default function LearnAcidsBases() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {tab === 'classify' && (
-          <motion.div key="classify" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* Reasoning reminder */}
             <div className="bg-red-50 rounded-xl p-3 mb-3">
               <p className="text-xs text-red-700">
@@ -165,13 +166,11 @@ export default function LearnAcidsBases() {
             </div>
 
             {feedback ? (
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
+              <div
                 className={`text-center p-4 rounded-xl font-bold ${feedback === 'Correct!' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
               >
                 {feedback}
-              </motion.div>
+              </div>
             ) : (
               <div className="grid grid-cols-3 gap-2">
                 <button className="py-4 rounded-xl font-bold text-white bg-red-500 active:scale-95 transition-transform" onClick={() => handleClassify('acid')}>
@@ -188,9 +187,9 @@ export default function LearnAcidsBases() {
                 </button>
               </div>
             )}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   )
 }

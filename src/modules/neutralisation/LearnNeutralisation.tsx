@@ -46,9 +46,9 @@ export default function LearnNeutralisation() {
         ))}
       </div>
 
-      <AnimatePresence mode="wait">
+      <div>
         {tab === 'learn' && (
-          <motion.div key="learn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* Core concept */}
             <div className="bg-pink-50 rounded-xl p-4 mb-3">
               <h3 className="font-bold text-pink-800 text-sm mb-2">What is Neutralisation?</h3>
@@ -113,11 +113,11 @@ export default function LearnNeutralisation() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {tab === 'mixer' && (
-          <motion.div key="mixer" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* Reasoning reminder */}
             <div className="bg-pink-50 rounded-xl p-3 mb-3">
               <p className="text-xs text-pink-700">
@@ -164,13 +164,11 @@ export default function LearnNeutralisation() {
             />
 
             {mixerResult && (
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
+              <div
                 className={`text-center p-3 rounded-xl mb-3 font-bold ${mixerResult === 'Correct!' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}
               >
                 {mixerResult}
-              </motion.div>
+              </div>
             )}
 
             <div className="flex gap-2 mb-3">
@@ -192,9 +190,9 @@ export default function LearnNeutralisation() {
                 <p className="text-xs font-mono font-bold">{reaction.symbolEquation}</p>
               </div>
             )}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   )
 }

@@ -38,6 +38,7 @@ export default function LearnElectrons() {
   }
 
   function handleClassify(group: string) {
+    if (classifyFeedback) return // prevent double-tap
     const el = classifyElements[classifyIdx % classifyElements.length]
     const correctGroup =
       el.group === 1 ? 'Alkali Metals' :
@@ -50,9 +51,9 @@ export default function LearnElectrons() {
       setClassifyFeedback(`Nope! ${el.name} is a ${correctGroup} (Group ${el.group})`)
     }
     setTimeout(() => {
-      setClassifyIdx(i => i + 1)
       setClassifyFeedback(null)
-    }, 1500)
+      setClassifyIdx(i => i + 1)
+    }, 2500)
   }
 
   return (
@@ -70,9 +71,9 @@ export default function LearnElectrons() {
         ))}
       </div>
 
-      <AnimatePresence mode="wait">
+      <div>
         {tab === 'learn' && (
-          <motion.div key="learn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* Key concept */}
             <div className="bg-indigo-50 rounded-xl p-4 mb-4">
               <h3 className="font-bold text-indigo-800 text-sm mb-2">Key Idea</h3>
@@ -125,23 +126,23 @@ export default function LearnElectrons() {
               </p>
 
               {/* Visual shells */}
-              <svg viewBox="0 0 200 200" className="w-48 h-48 mx-auto">
+              <svg viewBox="0 0 240 240" className="w-52 h-52 mx-auto">
                 {/* Nucleus */}
-                <circle cx="100" cy="100" r="16" fill={groupColors[selectedElement.category]} />
-                <text x="100" y="105" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
+                <circle cx="120" cy="120" r="16" fill={groupColors[selectedElement.category]} />
+                <text x="120" y="125" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold">
                   {selectedElement.symbol}
                 </text>
 
                 {/* Shells */}
                 {selectedElement.electrons.map((count, shellIdx) => {
-                  const radius = 35 + shellIdx * 25
+                  const radius = 32 + shellIdx * 22
                   return (
                     <g key={shellIdx}>
-                      <circle cx="100" cy="100" r={radius} fill="none" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4,4" />
+                      <circle cx="120" cy="120" r={radius} fill="none" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4,4" />
                       {Array.from({ length: count }).map((_, eIdx) => {
                         const angle = (eIdx / count) * Math.PI * 2 - Math.PI / 2
-                        const ex = 100 + radius * Math.cos(angle)
-                        const ey = 100 + radius * Math.sin(angle)
+                        const ex = 120 + radius * Math.cos(angle)
+                        const ey = 120 + radius * Math.sin(angle)
                         return (
                           <motion.circle
                             key={eIdx}
@@ -149,13 +150,10 @@ export default function LearnElectrons() {
                             cy={ey}
                             r="5"
                             fill="#6366f1"
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ delay: shellIdx * 0.2 + eIdx * 0.05 }}
                           />
                         )
                       })}
-                      <text x={100 + radius + 8} y={100} fontSize="8" fill="#94a3b8">
+                      <text x={120 + radius + 8} y={120} fontSize="8" fill="#94a3b8">
                         {count}
                       </text>
                     </g>
@@ -163,11 +161,11 @@ export default function LearnElectrons() {
                 })}
               </svg>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {tab === 'build' && (
-          <motion.div key="build" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             <div className="bg-green-50 rounded-xl p-4 mb-4 text-center">
               <h3 className="font-bold text-green-800 mb-1">Build the Atom!</h3>
               <p className="text-sm text-green-700">
@@ -214,8 +212,6 @@ export default function LearnElectrons() {
 
             {buildResult && (
               <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
                 className={`text-center p-3 rounded-xl mb-3 font-bold ${buildResult === 'correct' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
               >
                 {buildResult === 'correct'
@@ -228,11 +224,11 @@ export default function LearnElectrons() {
               <button className="btn-primary flex-1" onClick={checkBuild}>Check</button>
               <button className="btn-secondary flex-1" onClick={nextBuild}>Next Atom</button>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {tab === 'classify' && (
-          <motion.div key="classify" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* Reasoning reminder */}
             <div className="bg-indigo-50 rounded-xl p-3 mb-3">
               <p className="text-xs text-indigo-700">
@@ -266,8 +262,6 @@ export default function LearnElectrons() {
 
             {classifyFeedback ? (
               <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
                 className={`text-center p-4 rounded-xl font-bold ${classifyFeedback.startsWith('Correct') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
               >
                 <p>{classifyFeedback}</p>
@@ -297,9 +291,9 @@ export default function LearnElectrons() {
                 ))}
               </div>
             )}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   )
 }

@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { topics } from './topics'
 import { getMastery } from '../utils/storage'
 
@@ -14,14 +13,9 @@ export default function HomeScreen({ onSelectTopic, onMixedQuiz }: Props) {
     <div className="px-4 pt-8 max-w-lg mx-auto">
       {/* Header */}
       <div className="text-center mb-6">
-        <motion.h1
-          className="text-3xl font-bold text-white drop-shadow-lg"
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', damping: 10 }}
-        >
+        <h1 className="text-3xl font-bold text-white drop-shadow-lg">
           Gisele's Science Quest
-        </motion.h1>
+        </h1>
         <p className="text-white/80 mt-1 text-sm">Year 11 Science 1.5 - Acids & Bases</p>
 
         {/* Overall progress */}
@@ -33,12 +27,12 @@ export default function HomeScreen({ onSelectTopic, onMixedQuiz }: Props) {
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-            <motion.div
-              className="h-full rounded-full"
-              style={{ background: 'linear-gradient(90deg, #6366f1, #ec4899, #f59e0b)' }}
-              initial={{ width: 0 }}
-              animate={{ width: `${overallMastery}%` }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
+            <div
+              className="h-full rounded-full transition-all duration-700"
+              style={{
+                background: 'linear-gradient(90deg, #6366f1, #ec4899, #f59e0b)',
+                width: `${overallMastery}%`,
+              }}
             />
           </div>
           <p className="text-xs text-gray-500 mt-1">
@@ -55,17 +49,13 @@ export default function HomeScreen({ onSelectTopic, onMixedQuiz }: Props) {
 
       {/* Topic cards */}
       <div className="space-y-3">
-        {topics.map((topic, i) => {
+        {topics.map((topic) => {
           const mastery = getMastery(topic.id)
           return (
-            <motion.button
+            <button
               key={topic.id}
-              className="w-full card flex items-center gap-4 text-left"
+              className="w-full card flex items-center gap-4 text-left active:scale-[0.97] transition-transform"
               onClick={() => onSelectTopic(topic.id)}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.08 }}
-              whileTap={{ scale: 0.97 }}
             >
               <div
                 className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0"
@@ -91,23 +81,19 @@ export default function HomeScreen({ onSelectTopic, onMixedQuiz }: Props) {
                   {mastery}%
                 </span>
               </div>
-            </motion.button>
+            </button>
           )
         })}
       </div>
 
       {/* Mixed Quiz button */}
-      <motion.button
-        className="w-full mt-6 py-4 rounded-2xl font-bold text-white text-lg shadow-lg"
+      <button
+        className="w-full mt-6 py-4 rounded-2xl font-bold text-white text-lg shadow-lg active:scale-95 transition-transform"
         style={{ background: 'linear-gradient(135deg, #6366f1, #ec4899)' }}
         onClick={onMixedQuiz}
-        whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
       >
         Mixed Quiz - All Topics
-      </motion.button>
+      </button>
     </div>
   )
 }

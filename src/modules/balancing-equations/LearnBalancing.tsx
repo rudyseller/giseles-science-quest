@@ -133,9 +133,9 @@ export default function LearnBalancing() {
         ))}
       </div>
 
-      <AnimatePresence mode="wait">
+      <div>
         {tab === 'learn' && (
-          <motion.div key="learn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             <div className="bg-emerald-50 rounded-xl p-4 mb-4">
               <h3 className="font-bold text-emerald-800 text-sm mb-2">What is Balancing?</h3>
               <p className="text-xs text-emerald-700 mb-3">
@@ -174,11 +174,11 @@ export default function LearnBalancing() {
                 <li>If stuck, try doubling a coefficient</li>
               </ul>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {tab === 'practice' && (
-          <motion.div key="practice" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             <p className="text-xs text-gray-500 text-center mb-3">Tap +/- to adjust each coefficient until balanced</p>
 
             {/* Equation display */}
@@ -245,21 +245,19 @@ export default function LearnBalancing() {
             </div>
 
             {isBalanced && (
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
+              <div
                 className="bg-green-100 text-green-700 text-center p-4 rounded-xl font-bold mb-4 text-lg"
               >
                 Balanced! Great job!
-              </motion.div>
+              </div>
             )}
 
             <button className="btn-secondary w-full" onClick={nextEquation}>
               Next Equation
             </button>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   )
 }

@@ -23,6 +23,7 @@ export default function LearnIndicators() {
   }
 
   function handleLabGuess(guess: string) {
+    if (labGuess) return // prevent double-tap
     const result = getIndicatorColour(indicator, substance.pH)
     setLabTotal(t => t + 1)
     if (guess.toLowerCase() === result.name.toLowerCase().split('/')[0]) {
@@ -32,10 +33,10 @@ export default function LearnIndicators() {
       setLabGuess(`It would be ${result.name}! (pH ${substance.pH} is ${classifyPH(substance.pH)})`)
     }
     setTimeout(() => {
+      setLabGuess(null)
       setLabIdx(i => i + 1)
       setLabIndicator(Math.floor(Math.random() * 3))
-      setLabGuess(null)
-    }, 2000)
+    }, 2500)
   }
 
   return (
@@ -55,9 +56,9 @@ export default function LearnIndicators() {
         ))}
       </div>
 
-      <AnimatePresence mode="wait">
+      <div>
         {tab === 'learn' && (
-          <motion.div key="learn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             {/* pH scale */}
             <div className="bg-purple-50 rounded-xl p-4 mb-4">
               <h3 className="font-bold text-purple-800 text-sm mb-2">The pH Scale</h3>
@@ -88,10 +89,8 @@ export default function LearnIndicators() {
               </div>
 
               {/* Selected pH info */}
-              <motion.div
+              <div
                 key={selectedPH}
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
                 className="bg-white rounded-xl p-3 text-center"
               >
                 <div className="text-3xl font-bold" style={{ color: getPHColour(selectedPH) }}>
@@ -101,7 +100,7 @@ export default function LearnIndicators() {
                 <p className="text-xs text-gray-500">
                   {commonSubstances.find(s => s.pH === selectedPH)?.name || ''}
                 </p>
-              </motion.div>
+              </div>
             </div>
 
             {/* Indicator cards */}
@@ -139,11 +138,11 @@ export default function LearnIndicators() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
 
         {tab === 'lab' && (
-          <motion.div key="lab" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <div>
             <div className="text-center mb-4">
               <p className="text-xs text-gray-500 mb-1">Score: {labScore}/{labTotal}</p>
             </div>
@@ -157,13 +156,11 @@ export default function LearnIndicators() {
             </div>
 
             {labGuess ? (
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
+              <div
                 className={`text-center p-4 rounded-xl font-bold ${labGuess === 'Correct!' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}
               >
                 {labGuess}
-              </motion.div>
+              </div>
             ) : (
               <div className="grid grid-cols-2 gap-2">
                 {(() => {
@@ -189,9 +186,9 @@ export default function LearnIndicators() {
                 })()}
               </div>
             )}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   )
 }
