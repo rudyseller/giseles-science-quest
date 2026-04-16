@@ -14,7 +14,7 @@ export default function HomeScreen({ onSelectTopic, onMixedQuiz }: Props) {
       {/* Header */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold text-white drop-shadow-lg">
-          Gisele's Science Quest
+          Science Quest
         </h1>
         <p className="text-white/80 mt-1 text-sm">Year 11 Science 1.5 - Acids & Bases</p>
 
