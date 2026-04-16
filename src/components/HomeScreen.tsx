@@ -4,13 +4,35 @@ import { getMastery } from '../utils/storage'
 interface Props {
   onSelectTopic: (topicId: string) => void
   onMixedQuiz: () => void
+  onLeaderboard: () => void
+  onSwitchPlayer: () => void
+  playerName: string
 }
 
-export default function HomeScreen({ onSelectTopic, onMixedQuiz }: Props) {
+export default function HomeScreen({ onSelectTopic, onMixedQuiz, onLeaderboard, onSwitchPlayer, playerName }: Props) {
   const overallMastery = topics.reduce((sum, t) => sum + getMastery(t.id), 0) / topics.length
 
   return (
     <div className="px-4 pt-8 max-w-lg mx-auto">
+      {/* Player badge + leaderboard */}
+      <div className="flex items-center justify-between mb-3">
+        <button
+          onClick={onSwitchPlayer}
+          className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1.5 text-white text-xs active:scale-95 transition-transform"
+        >
+          <span>{playerName === 'Gisele' ? '👩‍🔬' : '👨‍🔬'}</span>
+          <span className="font-bold">{playerName}</span>
+          <span className="text-white/50 text-[10px]">switch</span>
+        </button>
+        <button
+          onClick={onLeaderboard}
+          className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1.5 text-white text-xs active:scale-95 transition-transform"
+        >
+          <span>🏆</span>
+          <span className="font-bold">Scoreboard</span>
+        </button>
+      </div>
+
       {/* Header */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold text-white drop-shadow-lg">

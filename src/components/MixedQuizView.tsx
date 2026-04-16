@@ -4,12 +4,14 @@ import { getMixedQuestions, type Question } from '../data/questions'
 import { topics } from './topics'
 import { createAdaptiveState, updateAdaptive, getScoreMessage, getDifficultyColor, getDifficultyLabel, type AdaptiveState } from '../utils/adaptive'
 import { recordQuizResult, getMastery } from '../utils/storage'
+import { submitScore } from '../utils/supabase'
 
 interface Props {
   onBack: () => void
+  playerName: string
 }
 
-export default function MixedQuizView({ onBack }: Props) {
+export default function MixedQuizView({ onBack, playerName }: Props) {
   // Find weak topics (mastery < 50%)
   const weakTopics = topics.filter(t => getMastery(t.id) < 50).map(t => t.id)
 
@@ -41,12 +43,16 @@ export default function MixedQuizView({ onBack }: Props) {
 
   function nextQuestion() {
     if (currentIdx + 1 >= totalQuestions) {
-      // Save per-topic results
+      // Save per-topic results locally
       for (const [topicId, result] of Object.entries(topicResults)) {
         if (result.total > 0) {
           recordQuizResult(topicId, 'medium', result.correct, result.total)
         }
       }
+      // Submit overall mixed quiz score to Supabase
+      const pctFinal = adaptive.questionsAnswered > 0
+        ? Math.round((adaptive.correctAnswers / adaptive.questionsAnswered) * 100) : 0
+      submitScore(playerName, 'mixed-quiz', adaptive.correctAnswers, adaptive.questionsAnswered, pctFinal, adaptive.currentDifficulty)
       setFinished(true)
       return
     }

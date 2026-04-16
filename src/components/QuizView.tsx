@@ -4,9 +4,11 @@ import { getTopicById } from './topics'
 import { getQuestionsByTopic, type Question } from '../data/questions'
 import { createAdaptiveState, updateAdaptive, getScoreMessage, getDifficultyColor, getDifficultyLabel, type AdaptiveState, type Difficulty } from '../utils/adaptive'
 import { recordQuizResult } from '../utils/storage'
+import { submitScore } from '../utils/supabase'
 
 interface Props {
   topicId: string
+  playerName: string
   onBack: () => void
   onHome: () => void
 }
@@ -41,7 +43,7 @@ function pickQuestion(
   return null
 }
 
-export default function QuizView({ topicId, onBack, onHome }: Props) {
+export default function QuizView({ topicId, playerName, onBack, onHome }: Props) {
   const topic = getTopicById(topicId)
   const allTopicQuestions = useMemo(() => getQuestionsByTopic(topicId), [topicId])
 
@@ -96,12 +98,16 @@ export default function QuizView({ topicId, onBack, onHome }: Props) {
 
   function nextQuestion() {
     if (currentIdx + 1 >= TOTAL_QUESTIONS || !questionSequence[currentIdx + 1]) {
-      // Save results
+      // Save results locally
       for (const [diff, result] of Object.entries(difficultyResults)) {
         if (result.total > 0) {
           recordQuizResult(topicId, diff as any, result.correct, result.total)
         }
       }
+      // Submit to Supabase leaderboard
+      const pctFinal = adaptive.questionsAnswered > 0
+        ? Math.round((adaptive.correctAnswers / adaptive.questionsAnswered) * 100) : 0
+      submitScore(playerName, topicId, adaptive.correctAnswers, adaptive.questionsAnswered, pctFinal, adaptive.currentDifficulty)
       setFinished(true)
       return
     }
