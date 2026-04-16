@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { positiveIons, negativeIons, compoundPractice } from '../../data/ions'
+import IonAnimation from './IonAnimation'
 
 type Tab = 'learn' | 'ions' | 'formula'
 
@@ -167,6 +168,15 @@ export default function LearnIons() {
               <p className="text-[10px] text-red-500 mt-2 text-center">
                 <strong>Rule:</strong> 5, 6, or 7 outer electrons → easier to gain a few → negative ion
               </p>
+            </div>
+
+            {/* Interactive animations */}
+            <div className="mb-3">
+              <h4 className="font-bold text-sm text-gray-700 mb-2 text-center">See it happen step by step:</h4>
+              <div className="space-y-3">
+                <IonAnimation mode="sodium" />
+                <IonAnimation mode="chlorine" />
+              </div>
             </div>
 
             {/* Polyatomic ions */}
