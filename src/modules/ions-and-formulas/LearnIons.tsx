@@ -73,55 +73,100 @@ export default function LearnIons() {
       <AnimatePresence mode="wait">
         {tab === 'learn' && (
           <motion.div key="learn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <div className="bg-amber-50 rounded-xl p-4 mb-4">
-              <h3 className="font-bold text-amber-800 text-sm mb-2">How Ions Form</h3>
-              <p className="text-xs text-amber-700 mb-3">
-                When atoms react, they want a <strong>full outer shell</strong>. They do this by losing or gaining electrons.
+            {/* Step 1: WHY atoms form ions */}
+            <div className="bg-amber-50 rounded-xl p-4 mb-3">
+              <h3 className="font-bold text-amber-800 text-sm mb-2">Why do atoms form ions?</h3>
+              <p className="text-xs text-amber-700 mb-2">
+                Atoms with <strong>full outer shells are stable</strong> (like Noble Gases - they don't react at all!).
+                Other atoms "want" to get a full outer shell too. They do this by <strong>losing or gaining electrons</strong>.
               </p>
+              <div className="bg-white rounded-lg p-2 text-center text-xs text-amber-800">
+                The big question: is it easier to <strong>lose a few</strong> or <strong>gain a few</strong> to get a full shell?
+              </div>
             </div>
 
-            {/* Positive ions */}
+            {/* Step 2: Positive ions with WHY */}
             <div className="bg-blue-50 rounded-xl p-3 mb-3">
-              <h4 className="font-bold text-blue-700 text-xs mb-1">Positive Ions (Metals lose electrons)</h4>
-              <p className="text-xs text-blue-600 mb-2">
-                If an atom has <strong>1, 2, or 3 outer electrons</strong>, it's easier to <strong>lose</strong> them.
-                Fewer electrons than protons = <strong>positive charge</strong>.
-              </p>
-              <div className="flex items-center justify-center gap-2">
-                <div className="text-center">
-                  <div className="text-2xl">Na</div>
-                  <div className="text-[10px] text-gray-500">2,8,1</div>
-                </div>
-                <motion.div animate={{ x: [0, 20, 20] }} transition={{ repeat: Infinity, duration: 2 }}>
-                  <span className="text-xs">→ loses 1e⁻ →</span>
-                </motion.div>
-                <div className="text-center">
-                  <div className="text-2xl text-blue-600 font-bold">Na⁺</div>
-                  <div className="text-[10px] text-gray-500">2,8</div>
+              <h4 className="font-bold text-blue-700 text-xs mb-2">Positive Ions (Metals lose electrons)</h4>
+              <div className="space-y-2 text-xs text-blue-700">
+                <p>
+                  <strong>Example: Sodium (Na)</strong> has arrangement <strong>2, 8, 1</strong>
+                </p>
+                <p>
+                  It could gain 7 electrons to fill the shell... or just <strong>lose 1</strong>.
+                  Losing 1 is much easier! Then it has arrangement 2, 8 — a full outer shell.
+                </p>
+                <div className="bg-white rounded-lg p-2">
+                  <p className="text-[11px] mb-1"><strong>But why does that make it positive?</strong></p>
+                  <p className="text-[11px]">
+                    Sodium starts with <strong>11 protons (+) and 11 electrons (-)</strong> = neutral.
+                    After losing 1 electron: <strong>11 protons but only 10 electrons</strong>.
+                    More positive than negative = overall charge of <strong>+1</strong>.
+                  </p>
                 </div>
               </div>
+              <div className="flex items-center justify-center gap-3 mt-3">
+                <div className="text-center">
+                  <div className="text-xl font-bold">Na</div>
+                  <div className="text-[10px] text-gray-500">2,8,1</div>
+                  <div className="text-[10px] text-gray-400">11p⁺ 11e⁻</div>
+                </div>
+                <div className="text-center">
+                  <motion.div animate={{ x: [0, 10, 10] }} transition={{ repeat: Infinity, duration: 2 }}>
+                    <span className="text-xs">→ loses 1e⁻ →</span>
+                  </motion.div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xl text-blue-600 font-bold">Na⁺</div>
+                  <div className="text-[10px] text-gray-500">2,8 (full!)</div>
+                  <div className="text-[10px] text-blue-500">11p⁺ 10e⁻ = +1</div>
+                </div>
+              </div>
+              <p className="text-[10px] text-blue-500 mt-2 text-center">
+                <strong>Rule:</strong> 1, 2, or 3 outer electrons → easier to lose them → positive ion
+              </p>
             </div>
 
-            {/* Negative ions */}
+            {/* Step 3: Negative ions with WHY */}
             <div className="bg-red-50 rounded-xl p-3 mb-3">
-              <h4 className="font-bold text-red-700 text-xs mb-1">Negative Ions (Non-metals gain electrons)</h4>
-              <p className="text-xs text-red-600 mb-2">
-                If an atom has <strong>5, 6, or 7 outer electrons</strong>, it's easier to <strong>gain</strong> electrons to fill the shell.
-                More electrons than protons = <strong>negative charge</strong>.
-              </p>
-              <div className="flex items-center justify-center gap-2">
-                <div className="text-center">
-                  <div className="text-2xl">Cl</div>
-                  <div className="text-[10px] text-gray-500">2,8,7</div>
-                </div>
-                <motion.div animate={{ x: [0, -20, -20] }} transition={{ repeat: Infinity, duration: 2 }}>
-                  <span className="text-xs">← gains 1e⁻ ←</span>
-                </motion.div>
-                <div className="text-center">
-                  <div className="text-2xl text-red-600 font-bold">Cl⁻</div>
-                  <div className="text-[10px] text-gray-500">2,8,8</div>
+              <h4 className="font-bold text-red-700 text-xs mb-2">Negative Ions (Non-metals gain electrons)</h4>
+              <div className="space-y-2 text-xs text-red-700">
+                <p>
+                  <strong>Example: Chlorine (Cl)</strong> has arrangement <strong>2, 8, 7</strong>
+                </p>
+                <p>
+                  It could lose 7 electrons... or just <strong>gain 1</strong> to fill the shell.
+                  Gaining 1 is much easier! Then it has arrangement 2, 8, 8 — a full outer shell.
+                </p>
+                <div className="bg-white rounded-lg p-2">
+                  <p className="text-[11px] mb-1"><strong>But why does that make it negative?</strong></p>
+                  <p className="text-[11px]">
+                    Chlorine starts with <strong>17 protons (+) and 17 electrons (-)</strong> = neutral.
+                    After gaining 1 electron: <strong>17 protons but 18 electrons</strong>.
+                    More negative than positive = overall charge of <strong>-1</strong>.
+                  </p>
                 </div>
               </div>
+              <div className="flex items-center justify-center gap-3 mt-3">
+                <div className="text-center">
+                  <div className="text-xl font-bold">Cl</div>
+                  <div className="text-[10px] text-gray-500">2,8,7</div>
+                  <div className="text-[10px] text-gray-400">17p⁺ 17e⁻</div>
+                </div>
+                <div className="text-center">
+                  <motion.div animate={{ x: [0, -10, -10] }} transition={{ repeat: Infinity, duration: 2 }}>
+                    <span className="text-xs">← gains 1e⁻ ←</span>
+                  </motion.div>
+                </div>
+                <div className="text-center">
+                  <div className="text-xl text-red-600 font-bold">Cl⁻</div>
+                  <div className="text-[10px] text-gray-500">2,8,8 (full!)</div>
+                  <div className="text-[10px] text-red-500">17p⁺ 18e⁻ = -1</div>
+                </div>
+              </div>
+              <p className="text-[10px] text-red-500 mt-2 text-center">
+                <strong>Rule:</strong> 5, 6, or 7 outer electrons → easier to gain a few → negative ion
+              </p>
             </div>
 
             {/* Polyatomic ions */}

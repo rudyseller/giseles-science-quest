@@ -65,24 +65,30 @@ export default function LearnAcidsBases() {
       <AnimatePresence mode="wait">
         {tab === 'learn' && (
           <motion.div key="learn" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            {/* Acid definition */}
+            {/* What are acids - with WHY */}
             <div className="bg-red-50 rounded-xl p-4 mb-3">
               <h3 className="font-bold text-red-800 text-sm mb-2">What is an Acid?</h3>
               <p className="text-xs text-red-700 mb-2">
-                An acid is a substance that <strong>ionises</strong> (splits apart) in water to produce{' '}
-                <strong>hydrogen ions (H⁺)</strong>.
+                Before they touch water, acids are just <strong>neutral molecules</strong> (e.g. HCl is a gas).
+                But when you dissolve them in water, they <strong>ionise</strong> — they split apart and release
+                {' '}<strong>hydrogen ions (H⁺)</strong>.
               </p>
-              <p className="text-xs text-red-600 font-mono text-center mb-2">acid → H⁺ + negative ion</p>
+              <div className="bg-white rounded-lg p-2 mb-2">
+                <p className="text-xs text-red-700 text-center font-mono">HCl → H⁺ + Cl⁻</p>
+                <p className="text-[10px] text-gray-500 text-center mt-1">
+                  The H⁺ ions are what make something acidic. More H⁺ = more acidic = lower pH.
+                </p>
+              </div>
+              <div className="bg-white rounded-lg p-2 mb-2">
+                <p className="text-xs font-bold text-red-800 mb-1">Strong vs Weak — what's the difference?</p>
+                <p className="text-[11px] text-red-700">
+                  <strong>Strong acids</strong> (HCl, H₂SO₄, HNO₃) split apart <strong>100%</strong> — every single molecule ionises.
+                  {' '}<strong>Weak acids</strong> (vinegar, citric acid) only <strong>partially</strong> ionise — some molecules stay whole. That's why vinegar is safe to eat but hydrochloric acid isn't!
+                </p>
+              </div>
               <div className="space-y-1">
-                <p className="text-xs font-bold text-red-800">Strong acids (100% ionise):</p>
+                <p className="text-xs font-bold text-red-800">The 3 strong acids to know:</p>
                 {acids.filter(a => a.strength === 'strong').map(a => (
-                  <div key={a.formula} className="bg-white rounded-lg p-2 flex justify-between items-center">
-                    <span className="text-xs">{a.commonName}</span>
-                    <span className="text-xs font-mono font-bold text-red-700">{a.formula}</span>
-                  </div>
-                ))}
-                <p className="text-xs font-bold text-red-800 mt-2">Weak acids (partial ionisation):</p>
-                {acids.filter(a => a.strength === 'weak').slice(0, 3).map(a => (
                   <div key={a.formula} className="bg-white rounded-lg p-2 flex justify-between items-center">
                     <span className="text-xs">{a.commonName}</span>
                     <span className="text-xs font-mono font-bold text-red-700">{a.formula}</span>
@@ -91,14 +97,19 @@ export default function LearnAcidsBases() {
               </div>
             </div>
 
-            {/* Base definition */}
+            {/* What are bases - with WHY */}
             <div className="bg-blue-50 rounded-xl p-4 mb-3">
               <h3 className="font-bold text-blue-800 text-sm mb-2">What is a Base?</h3>
               <p className="text-xs text-blue-700 mb-2">
-                A base is a substance that produces <strong>hydroxide ions (OH⁻)</strong> in water.
-                A base that <strong>dissolves</strong> in water is called an <strong>alkali</strong>.
+                A base is the <strong>opposite of an acid</strong>. When dissolved in water, bases release
+                {' '}<strong>hydroxide ions (OH⁻)</strong>. The OH⁻ ions are what make something basic/alkaline.
               </p>
-              <p className="text-xs text-blue-600 font-mono text-center mb-2">base → metal ion + OH⁻</p>
+              <div className="bg-white rounded-lg p-2 mb-2">
+                <p className="text-xs text-blue-700 text-center font-mono">NaOH → Na⁺ + OH⁻</p>
+                <p className="text-[10px] text-gray-500 text-center mt-1">
+                  More OH⁻ = more basic = higher pH. An <strong>alkali</strong> is just a base that dissolves in water.
+                </p>
+              </div>
               <div className="space-y-1">
                 {bases.slice(0, 5).map(b => (
                   <div key={b.formula} className="bg-white rounded-lg p-2 flex justify-between items-center">
