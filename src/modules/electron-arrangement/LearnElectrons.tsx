@@ -233,6 +233,14 @@ export default function LearnElectrons() {
 
         {tab === 'classify' && (
           <motion.div key="classify" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {/* Reasoning reminder */}
+            <div className="bg-indigo-50 rounded-xl p-3 mb-3">
+              <p className="text-xs text-indigo-700">
+                <strong>How to work it out:</strong> Look at the electron arrangement →
+                count the <strong>outer electrons</strong> → that tells you the <strong>group number</strong> → match to the group name.
+              </p>
+            </div>
+
             <div className="text-center mb-4">
               <p className="text-xs text-gray-500 mb-1">Score: {classifyScore}</p>
               <div className="bg-yellow-50 rounded-xl p-4">
@@ -240,7 +248,19 @@ export default function LearnElectrons() {
                 <div className="text-4xl font-bold" style={{ color: groupColors[classifyElements[classifyIdx % classifyElements.length].category] }}>
                   {classifyElements[classifyIdx % classifyElements.length].symbol}
                 </div>
-                <p className="text-sm text-gray-500">{classifyElements[classifyIdx % classifyElements.length].name}</p>
+                <p className="text-sm text-gray-500 mb-2">{classifyElements[classifyIdx % classifyElements.length].name}</p>
+
+                {/* Show the clues - electron arrangement */}
+                <div className="bg-white rounded-lg p-2 inline-block">
+                  <p className="text-xs text-gray-400 mb-0.5">Electron arrangement:</p>
+                  <p className="text-sm font-mono font-bold text-indigo-600">
+                    {getElectronArrangement(classifyElements[classifyIdx % classifyElements.length])}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    Outer electrons: <strong className="text-indigo-600">{getOuterElectrons(classifyElements[classifyIdx % classifyElements.length])}</strong>
+                    {' → '}Group <strong className="text-indigo-600">{classifyElements[classifyIdx % classifyElements.length].group}</strong>
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -248,24 +268,31 @@ export default function LearnElectrons() {
               <motion.div
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
-                className={`text-center p-4 rounded-xl font-bold ${classifyFeedback === 'Correct!' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
+                className={`text-center p-4 rounded-xl font-bold ${classifyFeedback.startsWith('Correct') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
               >
-                {classifyFeedback}
+                <p>{classifyFeedback}</p>
+                {classifyFeedback.startsWith('Correct') && (
+                  <p className="text-xs font-normal mt-1 text-green-600">
+                    {getOuterElectrons(classifyElements[(classifyIdx) % classifyElements.length])} outer electron{getOuterElectrons(classifyElements[(classifyIdx) % classifyElements.length]) !== 1 ? 's' : ''} → Group {classifyElements[(classifyIdx) % classifyElements.length].group} ✓
+                  </p>
+                )}
               </motion.div>
             ) : (
               <div className="grid grid-cols-2 gap-2">
-                {['Alkali Metals', 'Alkaline Earth Metals', 'Halogens', 'Noble Gases'].map(group => (
+                {[
+                  { name: 'Alkali Metals', hint: '1 outer e⁻ → Group 1', color: '#f97316' },
+                  { name: 'Alkaline Earth Metals', hint: '2 outer e⁻ → Group 2', color: '#3b82f6' },
+                  { name: 'Halogens', hint: '7 outer e⁻ → Group 17', color: '#ef4444' },
+                  { name: 'Noble Gases', hint: 'Full shell → Group 18', color: '#a855f7' },
+                ].map(group => (
                   <button
-                    key={group}
-                    className="py-3 rounded-xl font-bold text-sm text-white active:scale-95 transition-transform"
-                    style={{
-                      background: group === 'Alkali Metals' ? '#f97316'
-                        : group === 'Alkaline Earth Metals' ? '#3b82f6'
-                        : group === 'Halogens' ? '#ef4444' : '#a855f7'
-                    }}
-                    onClick={() => handleClassify(group)}
+                    key={group.name}
+                    className="py-3 px-2 rounded-xl font-bold text-sm text-white active:scale-95 transition-transform"
+                    style={{ background: group.color }}
+                    onClick={() => handleClassify(group.name)}
                   >
-                    {group}
+                    {group.name}
+                    <span className="block text-[10px] font-normal opacity-80 mt-0.5">{group.hint}</span>
                   </button>
                 ))}
               </div>

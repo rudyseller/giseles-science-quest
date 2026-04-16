@@ -137,6 +137,14 @@ export default function LearnAcidsBases() {
 
         {tab === 'classify' && (
           <motion.div key="classify" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {/* Reasoning reminder */}
+            <div className="bg-red-50 rounded-xl p-3 mb-3">
+              <p className="text-xs text-red-700">
+                <strong>How to tell:</strong> Acids have "acid" in the name or produce H⁺ (e.g. HCl, vinegar, citric acid).
+                Bases contain OH or are metal oxides/carbonates (e.g. NaOH, baking soda). pH 7 = neutral.
+              </p>
+            </div>
+
             <div className="text-center mb-4">
               <p className="text-xs text-gray-500 mb-1">Score: {classifyScore}/{classifyTotal}</p>
               <div className="bg-gray-50 rounded-xl p-6">
@@ -157,12 +165,15 @@ export default function LearnAcidsBases() {
               <div className="grid grid-cols-3 gap-2">
                 <button className="py-4 rounded-xl font-bold text-white bg-red-500 active:scale-95 transition-transform" onClick={() => handleClassify('acid')}>
                   Acid
+                  <span className="block text-[10px] font-normal opacity-80">produces H⁺</span>
                 </button>
                 <button className="py-4 rounded-xl font-bold text-white bg-green-500 active:scale-95 transition-transform" onClick={() => handleClassify('neutral')}>
                   Neutral
+                  <span className="block text-[10px] font-normal opacity-80">pH = 7</span>
                 </button>
                 <button className="py-4 rounded-xl font-bold text-white bg-blue-500 active:scale-95 transition-transform" onClick={() => handleClassify('base')}>
                   Base
+                  <span className="block text-[10px] font-normal opacity-80">produces OH⁻</span>
                 </button>
               </div>
             )}

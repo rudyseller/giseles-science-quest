@@ -118,6 +118,14 @@ export default function LearnNeutralisation() {
 
         {tab === 'mixer' && (
           <motion.div key="mixer" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {/* Reasoning reminder */}
+            <div className="bg-pink-50 rounded-xl p-3 mb-3">
+              <p className="text-xs text-pink-700">
+                <strong>How to name the salt:</strong> Take the <strong>metal name from the base</strong> +
+                the <strong>ending from the acid</strong> (HCl → chloride, H₂SO₄ → sulfate, HNO₃ → nitrate).
+              </p>
+            </div>
+
             <div className="bg-gray-50 rounded-xl p-4 mb-4 text-center">
               <p className="text-xs text-gray-500 mb-2">What salt is formed when you mix:</p>
               <div className="flex items-center justify-center gap-2 mb-2">
@@ -129,9 +137,22 @@ export default function LearnNeutralisation() {
                   <p className="text-xs text-blue-600 font-bold">{reaction.base}</p>
                 </div>
               </div>
-              <span className={`badge ${reaction.difficulty === 'easy' ? 'bg-green-100 text-green-700' : reaction.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
-                {reaction.difficulty}
-              </span>
+
+              {/* Reasoning hints */}
+              <div className="bg-white rounded-lg p-2 mt-2 inline-block text-xs text-gray-500">
+                <p>Metal from base: <strong className="text-blue-600">{reaction.base.replace(/ hydroxide| oxide| carbonate| hydrogen carbonate/gi, '').trim()}</strong></p>
+                <p>Acid type: <strong className="text-red-600">{
+                  reaction.acid.includes('hydrochloric') ? 'hydrochloric → chloride' :
+                  reaction.acid.includes('sulfuric') ? 'sulfuric → sulfate' :
+                  reaction.acid.includes('nitric') ? 'nitric → nitrate' : reaction.acid
+                }</strong></p>
+              </div>
+
+              <div className="mt-2">
+                <span className={`badge ${reaction.difficulty === 'easy' ? 'bg-green-100 text-green-700' : reaction.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
+                  {reaction.difficulty}
+                </span>
+              </div>
             </div>
 
             <input

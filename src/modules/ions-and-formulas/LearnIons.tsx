@@ -204,15 +204,40 @@ export default function LearnIons() {
 
         {tab === 'formula' && (
           <motion.div key="formula" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {/* Reasoning reminder */}
+            <div className="bg-amber-50 rounded-xl p-3 mb-3">
+              <p className="text-xs text-amber-700">
+                <strong>Steps:</strong> 1) Find the ions and their charges → 2) Cross-multiply the charges
+                to find the ratio → 3) Write as subscripts. Charges must balance to <strong>zero</strong>.
+              </p>
+            </div>
+
             <div className="bg-amber-50 rounded-xl p-4 mb-4 text-center">
               <p className="text-xs text-gray-500 mb-1">Write the formula for:</p>
               <h3 className="text-xl font-bold text-amber-800">{currentCompound.name}</h3>
-              <p className="text-xs text-gray-500 mt-1">
-                {currentCompound.positiveIon} + {currentCompound.negativeIon}
-              </p>
-              <span className={`badge mt-2 ${currentCompound.difficulty === 'easy' ? 'bg-green-100 text-green-700' : currentCompound.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
-                {currentCompound.difficulty}
-              </span>
+              {/* Show ion symbols and charges as reasoning hints */}
+              {(() => {
+                const posIon = positiveIons.find(i => i.name === currentCompound.positiveIon)
+                const negIon = negativeIons.find(i => i.name === currentCompound.negativeIon)
+                return (
+                  <div className="bg-white rounded-lg p-2 mt-2 inline-block">
+                    <p className="text-xs text-gray-400">Ions needed:</p>
+                    <p className="text-sm">
+                      <span className="font-bold text-blue-600">{posIon?.symbol || currentCompound.positiveIon}</span>
+                      <span className="text-gray-400"> {' + '} </span>
+                      <span className="font-bold text-red-600">{negIon?.symbol || currentCompound.negativeIon}</span>
+                    </p>
+                    <p className="text-[10px] text-gray-400 mt-1">
+                      Charges: +{posIon?.charge || '?'} and -{negIon?.charge || '?'} → must balance to zero
+                    </p>
+                  </div>
+                )
+              })()}
+              <div className="mt-2">
+                <span className={`badge ${currentCompound.difficulty === 'easy' ? 'bg-green-100 text-green-700' : currentCompound.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}`}>
+                  {currentCompound.difficulty}
+                </span>
+              </div>
             </div>
 
             <input
