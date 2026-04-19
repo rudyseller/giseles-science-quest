@@ -83,17 +83,86 @@ export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
   }
 }
 
-// Player name management
-const PLAYER_KEY = 'science-quest-player'
+// ============================================================
+// Player authentication (PIN-based)
+// ============================================================
 
+const PLAYER_KEY = 'science-quest-player'
+const PIN_KEY = 'science-quest-pin'
+
+/** Get the locally-stored player session (name + pin). */
+export function getLocalSession(): { name: string; pin: string } | null {
+  const name = localStorage.getItem(PLAYER_KEY)
+  const pin = localStorage.getItem(PIN_KEY)
+  if (name && pin) return { name, pin }
+  return null
+}
+
+/** Save player session locally so they stay logged in on this device. */
+export function setLocalSession(name: string, pin: string) {
+  localStorage.setItem(PLAYER_KEY, name)
+  localStorage.setItem(PIN_KEY, pin)
+}
+
+/** Clear local session (for switching players). */
+export function clearLocalSession() {
+  localStorage.removeItem(PLAYER_KEY)
+  localStorage.removeItem(PIN_KEY)
+}
+
+// Legacy compat
 export function getPlayerName(): string | null {
   return localStorage.getItem(PLAYER_KEY)
 }
-
 export function setPlayerName(name: string) {
   localStorage.setItem(PLAYER_KEY, name)
 }
 
-export function clearPlayerName() {
-  localStorage.removeItem(PLAYER_KEY)
+/** Check if a player has already created a PIN in Supabase. */
+export async function hasPlayerPin(playerName: string): Promise<boolean> {
+  try {
+    const { data } = await supabase
+      .from('science_quest_players')
+      .select('pin')
+      .eq('player_name', playerName)
+      .single()
+    return !!data
+  } catch {
+    return false
+  }
+}
+
+/** Create a new PIN for a player. Returns true on success. */
+export async function createPlayerPin(playerName: string, pin: string): Promise<boolean> {
+  try {
+    const { error } = await supabase
+      .from('science_quest_players')
+      .insert({ player_name: playerName, pin })
+    if (error) {
+      console.warn('Failed to create PIN:', error)
+      return false
+    }
+    setLocalSession(playerName, pin)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/** Verify a player's PIN against Supabase. Returns true if correct. */
+export async function verifyPlayerPin(playerName: string, pin: string): Promise<boolean> {
+  try {
+    const { data } = await supabase
+      .from('science_quest_players')
+      .select('pin')
+      .eq('player_name', playerName)
+      .single()
+    if (data && data.pin === pin) {
+      setLocalSession(playerName, pin)
+      return true
+    }
+    return false
+  } catch {
+    return false
+  }
 }

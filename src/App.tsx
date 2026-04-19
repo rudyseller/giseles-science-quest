@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { getPlayerName } from './utils/supabase'
+import { getLocalSession, clearLocalSession } from './utils/supabase'
 import PlayerSelect from './components/PlayerSelect'
 import HomeScreen from './components/HomeScreen'
 import TopicView from './components/TopicView'
@@ -16,8 +16,9 @@ export type Screen =
   | { type: 'leaderboard' }
 
 export default function App() {
-  const [player, setPlayer] = useState<string | null>(getPlayerName())
-  const [screen, setScreen] = useState<Screen>(player ? { type: 'home' } : { type: 'player-select' })
+  const session = getLocalSession()
+  const [player, setPlayer] = useState<string | null>(session?.name || null)
+  const [screen, setScreen] = useState<Screen>(session ? { type: 'home' } : { type: 'player-select' })
 
   const goHome = useCallback(() => setScreen({ type: 'home' }), [])
   const goTopic = useCallback((topicId: string) => setScreen({ type: 'topic', topicId }), [])
@@ -31,6 +32,7 @@ export default function App() {
   }
 
   function handleSwitchPlayer() {
+    clearLocalSession()
     setPlayer(null)
     setScreen({ type: 'player-select' })
   }
